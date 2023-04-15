@@ -2,6 +2,7 @@ package com.maome.springjwt.controllers;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,9 @@ import javax.validation.Valid;
 import com.maome.springjwt.repository.RoleRepository;
 import com.maome.springjwt.repository.UserRepository;
 import com.maome.springjwt.security.services.UserDetailsImpl;
+import com.maome.springjwt.service.NoteService;
+import com.maome.springjwt.service.PhotoService;
+import com.maome.springjwt.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,11 +21,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.maome.springjwt.models.ERole;
 import com.maome.springjwt.models.Role;
@@ -51,6 +51,18 @@ public class AuthController {
   @Autowired
   JwtUtils jwtUtils;
 
+
+
+  private final TokenService tokenService;
+  private final PhotoService photoService;
+
+  @Autowired
+  public AuthController(TokenService tokenService, PhotoService photoService) {
+    this.tokenService = tokenService;
+    this.photoService = photoService;
+  }
+
+
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -71,6 +83,13 @@ public class AuthController {
                          userDetails.getEmail(), 
                          roles));
   }
+
+  @GetMapping("/me")
+  public Optional<User> getUserInfoByToken(@RequestHeader("Authorization") String token) {
+      Long id = tokenService.tokenToID(token);
+      return userRepository.findById(id);
+  }
+
 
   @PostMapping("/signup")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {

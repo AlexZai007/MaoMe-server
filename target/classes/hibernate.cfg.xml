@@ -1,0 +1,1 @@
+<property name="hibernate.jdbc.batch_size">50</property>

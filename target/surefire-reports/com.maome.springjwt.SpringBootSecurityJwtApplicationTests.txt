@@ -1,0 +1,9 @@
+-------------------------------------------------------------------------------
+Test set: com.maome.springjwt.SpringBootSecurityJwtApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 4.144 s <<< FAILURE! - in com.maome.springjwt.SpringBootSecurityJwtApplicationTests
+contextLoads  Time elapsed: 0.012 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'noteControler' defined in file [/Users/a12345/Desktop/MyProjects/Git/MaoMe-server/target/classes/com/maome/springjwt/controllers/NoteControler.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.maome.springjwt.service.PhotoService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.maome.springjwt.service.PhotoService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+
